@@ -23,11 +23,11 @@ Or install it yourself as:
     Mom.connect_with Mongo::MongoClient.new
     
     class Location < Mom::Snippet
-      attr_accessor :lat, :lng
+      ingredients :lat, :lng
     end
     
     class User < Mom::Recipe
-      attr_accessor :name, :location
+      ingredients :name, :location
       
       def location=(value)
         @location = Location.new(value)
@@ -41,7 +41,7 @@ Or install it yourself as:
     
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/mom/fork )
+1. Fork it ( http://github.com/max-power/mom/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
