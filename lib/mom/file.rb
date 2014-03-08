@@ -5,7 +5,7 @@ module Mom
   class File < Recipe
     extend Grid
     extend Forwardable
-    def_delegators :io, *%i(read rewind client_md5 file_length file_position files_id server_md5)
+    def_delegators :io, :read, :rewind, :client_md5, :file_length, :file_position, :files_id, :server_md5
     
     ingredient :filename
     ingredient :metadata
