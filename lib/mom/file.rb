@@ -1,5 +1,5 @@
 require "mime/types"
-require "mom/recipe/grid"
+require_relative "recipe/grid"
 
 module Mom
   class File < Recipe
