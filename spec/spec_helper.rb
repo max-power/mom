@@ -7,6 +7,7 @@ require 'minitest/spec'
 
 require 'mom'
 
+Mom.connect_with Mongo::MongoClient.new
 
 class Document < Mom::Recipe
   attr_accessor :title, :list, :url, :path

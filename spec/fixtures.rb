@@ -1,8 +1,6 @@
 require 'uri'
 require 'pathname'
 
-Mom.connect_with Mongo::MongoClient.new
-
 class User < Mom::Recipe
   class Token < Mom::Snippet
     ingr :provider, store_as: :p
