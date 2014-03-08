@@ -14,6 +14,7 @@ task :console do
   require 'irb'
   require 'irb/completion'
   require 'mom'
+  require_relative 'spec/fixtures'
 
   ARGV.clear
   IRB.start
