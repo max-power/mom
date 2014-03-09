@@ -34,11 +34,11 @@ module Mom
     end
     
     def siblings_and_self
-      self.class.find(_parent_id: _parent_id)
+      self.class.find(_parent_id: parent_id)
     end
     
     def siblings
-      self.class.find(_parent_id: _parent_id, _id: {"$ne" => id})
+      self.class.find(_parent_id: parent_id, _id: {"$ne" => id})
     end
     
     def descendants
@@ -49,8 +49,12 @@ module Mom
       parent_ids.first || id
     end
     
+    def root?
+      root_id == id
+    end
+    
     def root
-      root_id==id ? self.class.find_one(_id: root_id) : self
+      root? ? self.class.find_one(_id: root_id) : self
     end
   end
 end
