@@ -1,8 +1,8 @@
 module Mom
   module Persistence
-    attr_accessor :_id
-    alias_method :id, :_id
-    alias_method :id=, :_id=
+    def self.included(base)
+      base.ingredient :id, store_as: :_id
+    end
 
     def persisted?
       !id.nil?
