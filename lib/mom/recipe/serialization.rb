@@ -1,3 +1,4 @@
+require "json"
 require "mom/serializers/all"
 
 module Mom
@@ -15,6 +16,10 @@ module Mom
     def as_mongo_hash
       #Mom::Serializer.serialize(to_mongo)
       Mom::HashSerializer.new(to_mongo).to_mongo
+    end
+    
+    def to_json
+      as_mongo_hash.to_json
     end
   end
 end
