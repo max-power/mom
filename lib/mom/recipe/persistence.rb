@@ -16,7 +16,12 @@ module Mom
       self.id = self.class.save(to_mongo)
       true
     rescue Mongo::OperationFailure => e
-      false      
+      false
+    end
+
+    def update(ingredients)
+      result = self.class.update({ _id: id }, { "$set" => ingredients })
+      result["n"] > 0
     end
     
     def destroy
