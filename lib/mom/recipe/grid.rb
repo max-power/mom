@@ -9,7 +9,7 @@ module Mom
     end
     
     def create(file, ingredients={})
-      find_one grid.put(file, new(ingredients).as_mongo_hash)
+      find_one grid.put(file, new(ingredients).to_mongo)
     end
     
     def remove(selector)

@@ -3,7 +3,7 @@ module Mom
     def self.included(base)
       base.extend ClassMethods
       base.ingredient :parent_id,  store_as: :_parent_id
-      base.ingredient :parent_ids, store_as: :_parent_ids, reader: false
+      base.ingredient :parent_ids, store_as: :_parent_ids, default: -> doc { [doc.parent_id].compact }
     end
 
     module ClassMethods
@@ -12,17 +12,13 @@ module Mom
       end
     end
     
-    def parent_ids
-      @_parent_ids ||= [parent_id].compact
-    end
-
     def parent
       self.class.find_one(_id: parent_id) if parent_id
     end
     
     def parent=(model)
       self.parent_id  = model.id
-      self.parent_ids = model.parent_ids.push(model.id)
+      self.parent_ids = model.parent_ids + [model.id]
     end
 
     def ancestors
@@ -30,19 +26,19 @@ module Mom
     end
     
     def children
-      self.class.find(_parent_id: id )
+      self.class.find(_parent_id: id ) if persisted?
     end
     
     def siblings_and_self
-      self.class.find(_parent_id: parent_id)
+      self.class.find(_parent_id: parent_id) if persisted?
     end
     
     def siblings
-      self.class.find(_parent_id: parent_id, _id: {"$ne" => id})
+      self.class.find(_parent_id: parent_id, _id: {"$ne" => id}) if persisted?
     end
     
     def descendants
-      self.class.find(_parent_ids: id )
+      self.class.find(_parent_ids: id ) if persisted?
     end
     
     def root_id

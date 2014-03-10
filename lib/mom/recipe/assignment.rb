@@ -5,26 +5,26 @@ module Mom
     end
     
     def load(ingredients)
-      ingredients.each { |k,v| set_ingredient(k,v) }
-    end
-    
-    def get_ingredient(ingr)
-      respond_to?(ingr) ? public_send(ingr) : instance_variable_get(:"@#{ingr}")
-    end
-  
-    def set_ingredient(ingr, value)
-      if respond_to?(:"#{ingr}=")
-        public_send(:"#{ingr}=", value)
-      else
-        instance_variable_set(:"@#{ingr}", value)
+      ingredients.each do |k,v|
+        respond_to?(:"#{k}=") ? public_send(:"#{k}=", v) : set_ingredient(k,v)
       end
     end
     
-    def ingredients
-      @__ingredients ||= {}
+    def get_ingredient(ingr, default=nil)
+      ingredients.fetch(ingr.to_sym) do
+        default.respond_to?(:call) ? default.call(self) : default
+      end
+    end
+  
+    def set_ingredient(ingr, value)
+      ingredients.store(ingr.to_sym, value)
     end
 
     alias_method :[],  :get_ingredient
     alias_method :[]=, :set_ingredient
+    
+    def ingredients
+      @_ingredients ||= {}
+    end
   end
 end

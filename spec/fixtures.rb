@@ -7,14 +7,15 @@ class User < Mom::Recipe
     ingr :uid, store_as: :u
   end
 
-  ingredients :name, :email, :nickname, :auth, :image
+  ingredients :name, :email, :nickname, :image
+  ingredient :auth, default: []
   
   def auth=(value)
-    @auth = Array(value).map { |t| Token.new(t) }
+    self[:auth] = Array(value).map { |t| Token.new(t) }
   end
   
   def image=(value)
-    @image = URI(value.to_s) if value
+    self[:image] = URI(value.to_s) if value
   end
 end
 

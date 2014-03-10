@@ -13,7 +13,7 @@ module Mom
     end
     
     def save(*)
-      self.id = self.class.save(as_mongo_hash)
+      self.id = self.class.save(to_mongo)
       true
     rescue Mongo::OperationFailure => e
       false      
@@ -21,10 +21,10 @@ module Mom
     
     def destroy
       if persisted?
-        result  = self.class.remove({_id: _id})
+        result  = self.class.remove({_id: id})
         deleted = result["n"] > 0
-      end      
-      remove_instance_variable(:@_id) if deleted
+      end
+      ingredients.delete(:_id) if deleted
       !!deleted
     end
     
