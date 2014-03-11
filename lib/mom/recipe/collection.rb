@@ -41,7 +41,11 @@ module Mom
     end
 
     def query_options(extra={})
-      { transformer: -> doc { new(doc) } }.merge(extra)
+      { transformer: transformer }.merge(extra)
+    end
+    
+    def transformer
+      -> doc { new(doc) }
     end
   
     alias_method :all, :find
