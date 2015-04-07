@@ -50,7 +50,8 @@ module Mom
     end
     
     def root
-      root? ? self.class.find_one(_id: root_id) : self
+      return self if root?
+      self.class.find_one(_id: root_id)
     end
   end
 end
